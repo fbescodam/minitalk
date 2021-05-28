@@ -6,7 +6,7 @@
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/28 19:57:53 by fbes          #+#    #+#                 */
-/*   Updated: 2021/05/28 20:01:03 by fbes          ########   odam.nl         */
+/*   Updated: 2021/05/28 20:50:03 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,14 @@ int	ft_strlen(char *str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
+}
+
+void	ft_strcpy(char *src, char *dst)
+{
+	while (*src)
+	{
+		*dst = *src;
+		src++;
+		dst++;
+	}
 }

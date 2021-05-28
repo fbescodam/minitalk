@@ -6,14 +6,13 @@
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/28 17:11:43 by fbes          #+#    #+#                 */
-/*   Updated: 2021/05/28 20:11:50 by fbes          ########   odam.nl         */
+/*   Updated: 2021/05/28 20:47:36 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 #include <stdlib.h>
 #include <unistd.h>
-#include <signal.h>
 
 static int	ft_strlen(char *str)
 {
@@ -57,11 +56,18 @@ static int	send_char(int server_pid, int c)
 	{
 		if (kill(server_pid, SIGUSR1) < -1)
 			return (-1);
-		write(1, "sent rece cmd\n", 14);
+		usleep(100);
+		write(1, "sent rece cmd (", 15);
+		if (i >= 32 && i <= 126)
+			write(1, &i, 1);
+		else
+			write(1, "unprintable", 11);
+		write(1, ")\n", 2);
 		i++;
 	}
 	if (kill(server_pid, SIGUSR2) < -1)
 		return (-1);
+	usleep(100);
 	write(1, "sent next cmd\n", 14);
 	return (0);
 }
@@ -79,17 +85,20 @@ int	main(int argc, char **argv)
 	server_pid = ft_atoi(argv[1]);
 	if (server_pid <= 0)
 		return (err_exit("Invalid PID"));
+	signal(SIGUSR1, confirm);
+	signal(SIGUSR2, confirm);
 	write_pid();
-	len = ft_strlen(argv[1]);
+	len = ft_strlen(argv[2]);
 	i = 0;
 	while (i < len)
 	{
-		if (send_char(server_pid, (int)argv[1][i]) < 0)
+		if (send_char(server_pid, (int)argv[2][i]) < 0)
 			return (err_exit("Failed to send message to server"));
 		i++;
 	}
 	if (kill(server_pid, SIGUSR2) < 0)
 		return (err_exit("Failed to send message to server"));
+	//pause();
 	write(1, "sent next cmd\n", 14);
 	return (err_exit("Message sent"));
 }

@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   client.h                                           :+:    :+:            */
+/*   confirm.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/05/28 17:50:52 by fbes          #+#    #+#                 */
-/*   Updated: 2021/05/28 20:22:04 by fbes          ########   odam.nl         */
+/*   Created: 2021/05/28 20:17:13 by fbes          #+#    #+#                 */
+/*   Updated: 2021/05/28 20:22:14 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#include "client.h"
 
-# include <signal.h>
-
-int			ft_atoi(const char *str);
-void		confirm(int sig);
-
-#endif
+void	confirm(int sig)
+{
+	if (sig == SIGUSR1)
+		sig = 0;
+	else if (sig == SIGUSR2)
+		sig = 0;
+}

@@ -6,14 +6,13 @@
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/28 17:11:41 by fbes          #+#    #+#                 */
-/*   Updated: 2021/05/28 20:00:11 by fbes          ########   odam.nl         */
+/*   Updated: 2021/05/28 20:18:07 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 #include <unistd.h>
 #include <stdlib.h>
-#include <signal.h>
 
 #include <stdio.h>
 

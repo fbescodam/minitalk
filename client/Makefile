@@ -6,13 +6,13 @@
 #    By: fbes <fbes@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/05/28 17:11:22 by fbes          #+#    #+#                  #
-#    Updated: 2021/05/28 17:47:41 by fbes          ########   odam.nl          #
+#    Updated: 2021/05/28 20:20:24 by fbes          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		client
 
-SRCS =		ft_atoi.c client.c
+SRCS =		ft_atoi.c confirm.c client.c
 
 OBJS =		$(SRCS:.c=.o)
 
