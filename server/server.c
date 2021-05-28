@@ -6,15 +6,14 @@
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/28 17:11:41 by fbes          #+#    #+#                 */
-/*   Updated: 2021/05/28 20:18:07 by fbes          ########   odam.nl         */
+/*   Updated: 2021/05/28 22:13:16 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 #include <unistd.h>
 #include <stdlib.h>
-
-#include <stdio.h>
+#include <signal.h>
 
 static void	write_pid(void)
 {
@@ -23,23 +22,17 @@ static void	write_pid(void)
 	write(1, "\n", 1);
 }
 
+// comm(-42) below is used to free the inbox
+
 static void	stop_server(int t)
 {
+	comm(-42);
 	write(1, "\nGoodbye\n", 9);
 	exit(t);
 }
 
 int	main(void)
 {
-	struct sigaction	comm_r;
-	struct sigaction	comm_d_n;
-
-	comm_r.sa_sigaction = comm_receive;
-	sigemptyset(&comm_r.sa_mask);
-	comm_r.sa_flags = SA_SIGINFO;
-	comm_d_n.sa_sigaction = comm_done_next;
-	sigemptyset(&comm_d_n.sa_mask);
-	comm_d_n.sa_flags = SA_SIGINFO;
 	write_pid();
 	signal(SIGTERM, stop_server);
 	signal(SIGHUP, stop_server);
@@ -47,8 +40,8 @@ int	main(void)
 	signal(SIGABRT, stop_server);
 	signal(SIGQUIT, stop_server);
 	signal(SIGTSTP, stop_server);
-	sigaction(SIGUSR1, &comm_r, NULL);
-	sigaction(SIGUSR2, &comm_d_n, NULL);
+	signal(SIGUSR1, comm);
+	signal(SIGUSR2, comm);
 	while (1)
 		pause();
 	return (0);

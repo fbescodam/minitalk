@@ -6,13 +6,13 @@
 #    By: fbes <fbes@student.codam.nl>                 +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/05/28 17:06:54 by fbes          #+#    #+#                  #
-#    Updated: 2021/05/28 20:26:35 by fbes          ########   odam.nl          #
+#    Updated: 2021/05/28 21:02:51 by fbes          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		server
 
-SRCS =		useful.c inbox.c store.c comm.c server.c
+SRCS =		useful.c inbox.c comm.c server.c
 
 OBJS =		$(SRCS:.c=.o)
 
