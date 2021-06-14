@@ -1,0 +1,1 @@
+- send bits instead of ascii codes! SIGUSR1 for 0, SIGUSR2 for 1, always 8 signals per character (char = 8 bits in size), 8 times 0 received = end of string
