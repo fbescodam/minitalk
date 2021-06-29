@@ -6,7 +6,7 @@
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/28 17:50:49 by fbes          #+#    #+#                 */
-/*   Updated: 2021/05/28 22:14:38 by fbes          ########   odam.nl         */
+/*   Updated: 2021/06/29 20:46:04 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ typedef struct s_inbox
 {
 	char			*str;
 	char			c;
-	struct s_inbox	*next;
 }					t_inbox;
 
 int					ft_strlen(char *str);

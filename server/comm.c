@@ -6,17 +6,17 @@
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/28 17:58:49 by fbes          #+#    #+#                 */
-/*   Updated: 2021/05/28 22:14:52 by fbes          ########   odam.nl         */
+/*   Updated: 2021/06/29 20:51:15 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 #include <unistd.h>
 #include <stdlib.h>
-#include <limits.h>
 #include <signal.h>
+#include <limits.h>
 
-static void	comm_done_end(t_inbox *inbox)
+static void	output(t_inbox *inbox)
 {
 	if (inbox->str)
 	{
@@ -27,18 +27,13 @@ static void	comm_done_end(t_inbox *inbox)
 	write(1, "\n", 1);
 }
 
-static void	comm_receive(t_inbox *inbox)
+static void	next_char(t_inbox *inbox)
 {
-	(inbox->c)--;
-}
+	int		len;
+	char	*temp;
 
-static void	comm_done_next(t_inbox *inbox)
-{
-	int			len;
-	char		*temp;
-
-	if (inbox->c == CHAR_MAX)
-		return (comm_done_end(inbox));
+	if (inbox->c == '\0')
+		return (output(inbox));
 	if (inbox->str)
 		len = ft_strlen(inbox->str);
 	else
@@ -46,7 +41,6 @@ static void	comm_done_next(t_inbox *inbox)
 	len++;
 	temp = (char *)malloc(sizeof(char) * (len + 1));
 	temp[len - 1] = inbox->c;
-	inbox->c = CHAR_MAX;
 	temp[len] = '\0';
 	if (inbox->str)
 	{
@@ -54,19 +48,34 @@ static void	comm_done_next(t_inbox *inbox)
 		free(inbox->str);
 	}
 	inbox->str = temp;
+	inbox->c = '\0';
 	return ;
+}
+
+static void	set_bit_pos(t_inbox *inbox, int pos)
+{
+	char	mask;
+
+	mask = 1 << pos;
+	inbox->c = ((inbox->c & ~mask) | (1 << pos));
 }
 
 void	comm(int sig)
 {
 	static t_inbox	*inbox;
+	static int		pos = CHAR_BIT - 1;
 
 	if (!inbox)
 		inbox = new_inbox();
 	if (sig == SIGUSR1)
-		comm_receive(inbox);
-	else if (sig == SIGUSR2)
-		comm_done_next(inbox);
+		set_bit_pos(inbox, pos);
 	else if (sig == -42)
-		free_inbox(inbox);
+		return (free_inbox(inbox));
+	if (pos == 0)
+	{
+		pos = CHAR_BIT - 1;
+		next_char(inbox);
+	}
+	else
+		pos--;
 }

@@ -6,7 +6,7 @@
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/28 19:06:05 by fbes          #+#    #+#                 */
-/*   Updated: 2021/05/28 22:13:34 by fbes          ########   odam.nl         */
+/*   Updated: 2021/06/29 20:26:48 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_inbox	*new_inbox(void)
 	new = (t_inbox *)malloc(sizeof(t_inbox));
 	if (!new)
 		return (NULL);
-	new->c = CHAR_MAX;
+	new->c = '\0';
 	new->str = NULL;
 	return (new);
 }

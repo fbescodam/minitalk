@@ -6,15 +6,15 @@
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/28 17:11:43 by fbes          #+#    #+#                 */
-/*   Updated: 2021/05/28 22:12:24 by fbes          ########   odam.nl         */
+/*   Updated: 2021/06/29 20:47:50 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 #include <stdlib.h>
 #include <unistd.h>
-#include <limits.h>
 #include <signal.h>
+#include <limits.h>
 
 static int	ft_strlen(char *str)
 {
@@ -33,21 +33,23 @@ static int	err_exit(char *err)
 	exit(1);
 }
 
-static int	send_char(int server_pid, int c)
+static int	send_char(int server_pid, char c)
 {
 	int		i;
 
-	i = CHAR_MAX;
-	while (i > c)
+	i = CHAR_BIT - 1;
+	while (i >= 0)
 	{
-		if (kill(server_pid, SIGUSR1) < -1)
+		if ((unsigned int)(c & (1 << i)))
+		{
+			if (kill(server_pid, SIGUSR1) == -1)
+				return (-1);
+		}
+		else if (kill(server_pid, SIGUSR2) == -1)
 			return (-1);
 		usleep(WAIT_TIME_MS);
 		i--;
 	}
-	if (kill(server_pid, SIGUSR2) < -1)
-		return (-1);
-	usleep(WAIT_TIME_MS * 4);
 	return (0);
 }
 
@@ -64,7 +66,7 @@ int	main(int argc, char **argv)
 	server_pid = ft_atoi(argv[1]);
 	if (server_pid <= 0)
 		return (err_exit("Invalid PID"));
-	len = ft_strlen(argv[2]);
+	len = ft_strlen(argv[2]) + 1;
 	i = 0;
 	while (i < len)
 	{
@@ -72,8 +74,5 @@ int	main(int argc, char **argv)
 			return (err_exit("Failed to send message to server"));
 		i++;
 	}
-	if (kill(server_pid, SIGUSR2) < 0)
-		return (err_exit("Failed to send message to server"));
-	usleep(WAIT_TIME_MS);
 	return (err_exit("Message sent"));
 }
