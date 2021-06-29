@@ -6,7 +6,7 @@
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/28 17:50:49 by fbes          #+#    #+#                 */
-/*   Updated: 2021/06/29 20:46:04 by fbes          ########   odam.nl         */
+/*   Updated: 2021/06/29 21:04:17 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ void				ft_strcpy(char *src, char *dst);
 t_inbox				*new_inbox(void);
 void				free_inbox(t_inbox *inbox);
 void				comm(int sig);
+void				stop_server(int sig);
 
 #endif

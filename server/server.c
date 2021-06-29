@@ -6,7 +6,7 @@
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/28 17:11:41 by fbes          #+#    #+#                 */
-/*   Updated: 2021/06/29 20:17:23 by fbes          ########   odam.nl         */
+/*   Updated: 2021/06/29 21:05:12 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ static void	write_pid(void)
 
 // comm(-42) below is used to free the inbox
 
-static void	stop_server(int t)
+void	stop_server(int sig)
 {
 	comm(-42);
-	write(1, "\nGoodbye\n", 9);
-	exit(t);
+	if (sig != 137)
+		write(1, "\nGoodbye\n", 9);
+	else
+		write(1, "\nOut of memory\n", 9);
+	exit(sig);
 }
 
 int	main(void)

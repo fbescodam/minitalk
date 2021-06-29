@@ -6,7 +6,7 @@
 /*   By: fbes <fbes@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/28 17:58:49 by fbes          #+#    #+#                 */
-/*   Updated: 2021/06/29 20:51:15 by fbes          ########   odam.nl         */
+/*   Updated: 2021/06/29 21:04:34 by fbes          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	next_char(t_inbox *inbox)
 		len = 0;
 	len++;
 	temp = (char *)malloc(sizeof(char) * (len + 1));
+	if (!temp)
+		return (stop_server(137));
 	temp[len - 1] = inbox->c;
 	temp[len] = '\0';
 	if (inbox->str)
